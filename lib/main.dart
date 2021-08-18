@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_state_notifier/flutter_state_notifier.dart';
-
 import 'package:graphqldemo/screen/home.dart';
 import 'package:graphqldemo/state/countrydata.dart';
 

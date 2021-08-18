@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:graphqldemo/model/countrymodel.dart';
 import 'package:graphqldemo/state/countrydata.dart';
 import 'package:provider/provider.dart';
 
@@ -26,7 +27,8 @@ class _HomePageState extends State<HomePage> {
         body: ListView.builder(
           itemCount: context.watch<CountryState>().countries.length,
           itemBuilder: (context, index) {
-            final countriesList = context.watch<CountryState>().countries;
+            List<Countries> countriesList =
+                context.watch<CountryState>().countries;
             return Card(
               child: Container(
                 child: Padding(
@@ -34,12 +36,11 @@ class _HomePageState extends State<HomePage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      richText('CODE: ', countriesList[index]['code']),
-                      richText('NAME: ', countriesList[index]['name']),
+                      richText('CODE: ', countriesList[index].code),
+                      richText('NAME: ', countriesList[index].name),
                       richText(
-                          'Currency: ', countriesList[index]['currency'] ?? ''),
-                      richText('NATIVE: ', countriesList[index]['native']),
-                      richText('PHONE: ', countriesList[index]['phone']),
+                          'Currency: ', countriesList[index].currency ?? ''),
+                      richText('PHONE: ', countriesList[index].phone),
                     ],
                   ),
                 ),
