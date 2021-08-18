@@ -1,13 +1,21 @@
-import 'package:flutter/material.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:graphql/client.dart';
 
 class GraphRepo {
-  static HttpLink httpLink = HttpLink('https://countries.trevorblades.com');
-  static Link link = httpLink;
-  ValueNotifier<GraphQLClient> client = ValueNotifier(
-    GraphQLClient(
-      cache: GraphQLCache(store: InMemoryStore()),
-      link: link,
-    ),
-  );
+  GraphQLClient _client;
+  //constructor
+  GraphRepo() {
+    HttpLink httpLink = HttpLink('https://countries.trevorblades.com');
+    _client = GraphQLClient(
+        link: httpLink, cache: GraphQLCache(store: InMemoryStore()));
+  }
+  //performing query
+  Future<QueryResult> performQuery(String query,
+      {Map<String, dynamic> variables}) async {
+    QueryOptions options =
+        QueryOptions(document: gql(query), variables: variables);
+
+    final result = await _client.query(options);
+
+    return result;
+  }
 }

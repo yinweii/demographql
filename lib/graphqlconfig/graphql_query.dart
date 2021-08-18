@@ -1,5 +1,5 @@
 class GraphQuery {
-  String getCountry = """ 
+  static String query = """ 
   query country{
     countries{
       code

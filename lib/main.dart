@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:graphqldemo/graphqlconfig/graph_repo.dart';
+import 'package:flutter_state_notifier/flutter_state_notifier.dart';
+
 import 'package:graphqldemo/screen/home.dart';
+import 'package:graphqldemo/state/countrydata.dart';
 
 void main() {
   runApp(MyApp());
@@ -9,11 +10,10 @@ void main() {
 
 // ignore: must_be_immutable
 class MyApp extends StatelessWidget {
-  GraphRepo graphlqlClass = GraphRepo();
   @override
   Widget build(BuildContext context) {
-    return GraphQLProvider(
-      client: graphlqlClass.client,
+    return StateNotifierProvider<CountryStateNotifier, CountryState>(
+      create: (_) => CountryStateNotifier(),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(

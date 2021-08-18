@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:graphqldemo/graphqlconfig/graph_repo.dart';
-import 'package:graphqldemo/graphqlconfig/graphql_query.dart';
+import 'package:graphqldemo/state/countrydata.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -9,54 +8,45 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  GraphRepo graphRepo = GraphRepo();
-  GraphQuery graphQuery = GraphQuery();
+  //CountryStateNotifier countryStateNotifier = CountryStateNotifier();
+  @override
+  void initState() {
+    super.initState();
+    //countryStateNotifier.loadData();
+    context.read<CountryStateNotifier>().loadData();
+  }
 
   @override
   Widget build(BuildContext context) {
+    //print('LENGTH: ${context.watch<CountryState>().countries.length}');
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Demo GraphQl'),
-      ),
-      body: Query(
-        options: QueryOptions(document: gql(graphQuery.getCountry)),
-        builder: (QueryResult result, {refetch, fetchMore}) {
-          if (result.hasException)
-            return Center(
-              child: Text(result.hasException.toString()),
-            );
-          if (result.isLoading)
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          final countriesList = result.data?['countries'];
-          //print(countriesList);
-          return ListView.builder(
-            itemCount: countriesList.length,
-            itemBuilder: (_, index) {
-              return Card(
-                child: Container(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        richText('CODE: ', countriesList[index]['code']),
-                        richText('NAME: ', countriesList[index]['name']),
-                        richText('Currency: ',
-                            countriesList[index]['currency'] ?? ''),
-                        richText('NATIVE: ', countriesList[index]['native']),
-                        richText('PHONE: ', countriesList[index]['phone']),
-                      ],
-                    ),
+        appBar: AppBar(
+          title: Text('Demo GraphQl'),
+        ),
+        body: ListView.builder(
+          itemCount: context.watch<CountryState>().countries.length,
+          itemBuilder: (context, index) {
+            final countriesList = context.watch<CountryState>().countries;
+            return Card(
+              child: Container(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      richText('CODE: ', countriesList[index]['code']),
+                      richText('NAME: ', countriesList[index]['name']),
+                      richText(
+                          'Currency: ', countriesList[index]['currency'] ?? ''),
+                      richText('NATIVE: ', countriesList[index]['native']),
+                      richText('PHONE: ', countriesList[index]['phone']),
+                    ],
                   ),
                 ),
-              );
-            },
-          );
-        },
-      ),
-    );
+              ),
+            );
+          },
+        ));
   }
 
   // custom richtext
