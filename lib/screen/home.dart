@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:graphqldemo/model/countrymodel.dart';
+import 'package:graphqldemo/model/country.dart';
 import 'package:graphqldemo/state/countrydata.dart';
 import 'package:provider/provider.dart';
 
@@ -27,7 +27,7 @@ class _HomePageState extends State<HomePage> {
         body: ListView.builder(
           itemCount: context.watch<CountryState>().countries.length,
           itemBuilder: (context, index) {
-            List<Countries> countriesList =
+            List<Country> countriesList =
                 context.watch<CountryState>().countries;
             return Card(
               child: Container(
